@@ -8,3 +8,92 @@
   box-sizing: border-box;
   color: black;
 }
+
+@layer base {
+  * {
+    @apply box-border list-none p-0 m-0 scroll-smooth;
+  }
+}
+
+.btn-grad {
+            background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
+            margin: 10px;
+            padding: 10px 35px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+          }
+
+          .btn-grad-rounded {
+            background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
+            margin: 10px;
+            padding: 10px 10px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 99999px;
+            display: block;
+          }
+
+          .btn-grad:hover{
+            cursor: pointer;
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+          } 
+           .btn-grad-rounded :hover {
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+          }
+
+  .background-dark {
+    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  }
+  .border-g {
+  border: 1px solid ;
+  border-image: linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
+}
+
+.text-bg {
+   background: -webkit-linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
+  -webkit-text-fill-color: transparent;
+}
+
+         
+         
+         
+
+@layer utilities {
+    .btn-primary {
+        @apply btn-grad
+    }
+    .btn-primary-rounded {
+        @apply btn-grad-rounded
+    }
+
+   
+
+    .text-primary {
+      @apply font-medium text-base text-black dark:text-white 
+    }
+
+    .bg-dark {
+      @apply background-dark
+    }
+    .border-gradient {
+      @apply border border-indigo-500/75
+    }
+  
+
+   
+        
+}

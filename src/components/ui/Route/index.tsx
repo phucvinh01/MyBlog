@@ -1,5 +1,8 @@
+'use client';
+
 import clsx from 'clsx';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type RouterProps = {
   route: string;
@@ -7,13 +10,17 @@ type RouterProps = {
   onClick?: () => void;
   isActive?: boolean;
 };
+const Route = ({ route, label, onClick }: RouterProps) => {
+const pathname = usePathname();
 
-const Route = ({ route, label, onClick, isActive }: RouterProps) => {
   return (
     <Link
+      key={label}
       prefetch={false}
       onClick={onClick}
-      className={clsx(isActive && 'text-primary  dark:text-light' ,!isActive && 'text-secondary bg-transparent rounded-none dark:text-light')}
+      className={clsx('text-primary px-3 py-1', {
+        'bg-sky-100  rounded-3xl dark:text-black': pathname === route,
+      })}
       href={route}>
       {label}
     </Link>

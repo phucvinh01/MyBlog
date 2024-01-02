@@ -1,12 +1,10 @@
 'use client';
-import { upload } from '@vercel/blob/client';
 import React, { useId, useState } from 'react';
 import { Modal, message } from 'antd';
 import { IoCreateOutline } from 'react-icons/io5';
 import FileUploader from './FileUploader';
 import { IoCloseOutline } from 'react-icons/io5';
 import TextArea from 'antd/es/input/TextArea';
-import { createNewPost } from '@/services/blog';
 import { FileWithPath } from 'react-dropzone';
 const ModalNewBlog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,44 +42,41 @@ const ModalNewBlog = () => {
       setLoading(false);
       return;
     }
+    else {
 
-    const file = image[0];
+      const blog = {
+        title,
+        tag,
+        location,
+        caption,
+      }
 
-    const response = await upload(file.name, file, {
-      access: 'public',
-      handleUploadUrl: '/api/upload',
-    });
-
-
-    if (!response) {
-      message.error('upload failded');
+      console.log(blog);
+      try {
+      const res = await fetch('/api/blog', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          blog
+        }),
+      });
+      if (res.status === 400) {
+        message.error("failed")
+        setLoading(false);
+      }
+      if (res.status === 200) {
+        message.success("success")
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+        message.error("failed")
       setLoading(false);
-      return;
     }
-
-    let blog: IBlog = {
-      title: title,
-      tag: tag,
-      location: location,
-      caption: caption,
-      image: response.url,
-      author: '123'
-    };
-
-    const save = await createNewPost(blog);
-
-    console.log('check saved', save);
-
-    if (!save.isError) {
-      message.success('Created !');
-      setLoading(false);
-      handleCancel();
-      return;
-    } else {
-      message.error('Create failed !');
-      setLoading(false);
-      return;
     }
+  
   };
 
   return (
@@ -90,7 +85,7 @@ const ModalNewBlog = () => {
         onClick={showModal}
         className='flex items-center gap-3   focus:ring-2, focus:ring-blue-500, focus:ring-opacity-50'>
         <IoCreateOutline />
-        <p>NEW</p>
+        <p>New</p>
       </button>
       <Modal
         width={600}
@@ -100,9 +95,9 @@ const ModalNewBlog = () => {
         closeIcon={null}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <div className='flex justify-end absolute right-[-15px] top-[-15px]'>
+        <div className='flex justify-end absolute right-[-20px] top-[-25px]'>
           <button
-            className='btn-accent'
+            className='btn-primary-rounded'
             onClick={handleCancel}>
             {' '}
             <span className='text-xl'>
@@ -167,7 +162,7 @@ const ModalNewBlog = () => {
             onClick={handleSubmit}
             type='submit'
             disabled={loading}
-            className='btn-dark'>
+            className='btn-primary'>
             {loading ? 'Creating...' : 'Create'}{' '}
           </button>
         </div>

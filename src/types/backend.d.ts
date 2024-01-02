@@ -12,7 +12,7 @@ type IUser = {
 type IBlog = {
   title: string,
   caption?: string | null,
-  image: string,
+  image?: string,
   tag?: string,
   author?: string,
   slug?: string,

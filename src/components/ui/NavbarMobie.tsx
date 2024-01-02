@@ -5,7 +5,7 @@ import { LuAlignJustify } from "react-icons/lu";
 import { navLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '@/content/ThemeProvider';
-import Route from './ui/Route';
+import Route from './Route';
 const NavbarMobie = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -34,9 +34,9 @@ const NavbarMobie = () => {
                   navLinks.map((item, index) => {
                    
                     return (
-                      <div className='py-4 text-xl' key={index}>
+                      <li className='py-4 text-xl' key={index}>
                         <Route label={item.label} route={item.route}  onClick={handleCancel}></Route>
-                      </div>
+                      </li>
                     )
                   })
                 }               

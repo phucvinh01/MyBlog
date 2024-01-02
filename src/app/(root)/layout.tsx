@@ -5,6 +5,8 @@ import AuthProvider from '@/content/AuthProvide';
 import Header from '@/components/ui/Layout/Header';
 import Footer from '@/components/ui/Layout/Footer';
 import ThemeContextProvider from '@/content/ThemeProvider';
+import { Suspense } from 'react';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,19 +20,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <AuthProvider >
+      <body className={`${inter.className}`}>
+        <AuthProvider>
+          <AntdRegistry>
           <ThemeContextProvider>
-
-          <Header/>
-          {children}
-          <Footer/>
+            <main className='dark:bg-dark'> 
+              <Header />
+              <Suspense fallback='Loading...'>{children}</Suspense>
+              <Footer />
+            </main>
           </ThemeContextProvider>
-
-          </AuthProvider>
+          </AntdRegistry>
+        </AuthProvider>
       </body>
     </html>
   );

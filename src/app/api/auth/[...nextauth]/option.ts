@@ -13,6 +13,9 @@ import bcrypt from 'bcrypt'
 import { createNewUser } from '@/services/userServices';
 
 export const authOptions: NextAuthOptions = {
+  pages:{
+    signIn:'/login'
+  },
   providers: [
     CredentialsProvider({
       id: 'credentials',
@@ -90,6 +93,7 @@ export const authOptions: NextAuthOptions = {
           {
             userId: user.id,
             email: user.email,
+            
           },
           process.env.JWT_SECRET as string,
           { expiresIn: 600 * 600 }
@@ -110,10 +114,13 @@ export const authOptions: NextAuthOptions = {
     async session({
       session,
       token,
+      user
     }: {
       session: Session;
       token: JWT;
+      user: AuthUser
     }): Promise<any> {
+      console.log(user);
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
       return session;

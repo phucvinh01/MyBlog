@@ -17,7 +17,7 @@ const MenuHorizontal = () => {
             className={`flex items-center gap-3 `}
             href={'#'}>
             <VscBrowser />
-            <p>ALL</p>
+            <p>All</p>
           </Link>
         </li>
         <li className={`px-[50px] py-[12px]  cursor-pointer hover:bg-slate-300 transition-transform rounded-3xl`}>
@@ -25,7 +25,7 @@ const MenuHorizontal = () => {
            className={`flex items-center gap-3`}
             href={'#'}>
             <CiSaveDown2 />
-            <p>SAVED</p>
+            <p>Saved</p>
           </Link>
         </li>
       </ul>

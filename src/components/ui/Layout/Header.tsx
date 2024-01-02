@@ -11,16 +11,16 @@ import { useSession } from 'next-auth/react';
 import Route from '../Route';
 import ModalSearch from '@/components/ModalSearch';
 import DisplayUser from '@/components/DisplayUser';
-import NavbarMobie from '@/components/NavbarMobie';
+import NavbarMobie from '@/components/ui/NavbarMobie';
 import { useTheme } from '@/content/ThemeProvider';
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
-  const { data: session } = useSession();
+  const { data: session , status} = useSession();
   return (
     <>
      
-        <header>
-          <nav className='bg-white border-gray-200 px-4 lg:px-6  dark:bg-black'>
+        <header className='top-0 z-40 sticky'>
+          <nav className='bg-white border-gray-200 px-4 lg:px-6 dark:bg-dark py-3 sticky'>
             <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
               <Link
                 href='/'
@@ -69,25 +69,25 @@ const Header = () => {
                     <>
                       <Link
                         prefetch={false}
-                        href='/signin'
-                        className='btn-dark'>
+                        href='/login'
+                        className='btn-primary dark:text-white'>
                         Đăng nhập
                       </Link>
                     </>
                   ) : (
                     <>
-                      <DisplayUser session={session} />
+                      <DisplayUser session={session} status={status} />
                     </>
                   )}
 
                   <div className='flex gap-3 items-center justify-center '>
                     {theme === 'light' ? (
-                      <button onClick={() => toggleTheme()}>
-                        <FiSun />
+                      <button className='btn-primary-rounded' onClick={() => toggleTheme()}>
+                        <FiSun  />
                       </button>
                     ) : (
                       <button
-                        style={{ color: 'white' }}
+                      className='btn-primary-rounded'
                         onClick={() => toggleTheme()}>
                         <FaRegMoon />
                       </button>
