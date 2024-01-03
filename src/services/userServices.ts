@@ -5,7 +5,7 @@ import connectDB from "@/util/database";
 
 
 export const createNewUser = async (user: IUser) => {
-    connectDB()
+  await connectDB();
   try {
     const existingUser = await User.findOne({ email: user.email });
     if (!existingUser) {
@@ -15,10 +15,32 @@ export const createNewUser = async (user: IUser) => {
         image: user.image,
       });
       await newUser.save();
+      console.log('New user created:', newUser);
+      return newUser;
+    } else {
+      console.log('User already exists:', existingUser);
+      return existingUser;
     }
-    return true;
   } catch (err) {
-    console.log('Error saving user', err);
+    console.log('Error saving user:', err);
     return false;
   }
 };
+
+
+export const getIdUser =  async (email: any) => {
+   await connectDB()
+  try {
+    const existingId = await User.findOne({ email: email });
+    console.log("check existingId >>>>>>>>>",existingId);
+    if(existingId) {
+      return existingId._id
+    }
+    else {
+      return false
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}

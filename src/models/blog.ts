@@ -19,15 +19,20 @@ const blogSchema = new Schema(
         },
         image: {
             type: String,
+            required: true
         },
         tag: {
             type: String,
         },
-        author: {
-            type: String,
-        },
+        
+        author: { type: Schema.Types.ObjectId, ref: 'User' },
+
         location: {
             type: String,
+        },
+        slug: {
+            type: String,
+            required: true
         }
     },
     { timestamps: true }

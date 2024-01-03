@@ -1,10 +1,10 @@
-import { createBlog } from '@/services/blogServices';
+import { createBlog, getAllBlog } from '@/services/blogServices';
 import connectDB from '@/util/database';
 import { NextResponse } from 'next/server';
 
 export const POST = async (request: any) => {
   const { blog } = await request.json();
-    console.log(blog);
+    console.log("check blog server" ,blog);
   await connectDB()
 
   try {
@@ -22,3 +22,19 @@ export const POST = async (request: any) => {
     });
   }
 };
+
+export const GET = async () => {
+  try {
+    const data = await getAllBlog()
+    if(data) {
+        return NextResponse.json({ data })
+    }
+    else {
+        return new NextResponse('get all list blog failed', { status: 500 });
+    }
+  } catch (err: any) {
+    return new NextResponse(err, {
+      status: 500,
+    });
+  }
+}

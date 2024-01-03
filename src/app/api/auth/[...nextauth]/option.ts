@@ -1,20 +1,20 @@
+import User  from '@/models/user';
 import type { NextAuthOptions, Session } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import  { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { Account, User as AuthUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
-import User from '@/models/user';
 import connectDB from '@/util/database';
-
-import {sign} from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-import { createNewUser } from '@/services/userServices';
+import { sign } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { createNewUser, getIdUser} from '@/services/userServices';
+import { AdapterUser } from 'next-auth/adapters';
 
 export const authOptions: NextAuthOptions = {
-  pages:{
-    signIn:'/login'
+  pages: {
+    signIn: '/login',
   },
   providers: [
     CredentialsProvider({
@@ -52,29 +52,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-
   callbacks: {
     async signIn({
       user,
       account,
     }: {
-      user: AuthUser;
+      user: AdapterUser | AuthUser;
       account: Account | null;
     }): Promise<boolean | string> {
       if (account?.provider === 'credentials') {
         return true;
       }
-      if (account?.provider === 'github') {
-        const newUser = await createNewUser(user);
-        if (newUser) {
-          console.log('>>>> created');
-          return true;
-        } else {
-          console.log('>>>> create was failed');
-          return false;
-        }
-      }
-      if (account?.provider === 'google') {
+      if (account?.provider === 'github' || account?.provider === 'google') {
         const newUser = await createNewUser(user);
         if (newUser) {
           console.log('>>>> created');
@@ -87,13 +76,12 @@ export const authOptions: NextAuthOptions = {
       return false;
     },
 
-    async jwt({ token, user }: { token: JWT; user: AuthUser }): Promise<any> {
+    async jwt({ token, user }: { token: JWT; user: AdapterUser | AuthUser }): Promise<any> {
       if (user) {
         token.accessToken = sign(
           {
             userId: user.id,
             email: user.email,
-            
           },
           process.env.JWT_SECRET as string,
           { expiresIn: 600 * 600 }
@@ -107,24 +95,24 @@ export const authOptions: NextAuthOptions = {
           process.env.JWT_SECRET as string,
           { expiresIn: 6000 * 6000 }
         );
+        token.id = await getIdUser(user.email)
       }
       return token;
     },
-    
-    async session({
-      session,
-      token,
-      user
-    }: {
-      session: Session;
-      token: JWT;
-      user: AuthUser
-    }): Promise<any> {
-      console.log(user);
-      session.accessToken = token.accessToken as string;
-      session.refreshToken = token.refreshToken as string;
-      return session;
-    },
+
+   async session({
+  session,
+  token,
+}: {
+  session: Session;
+  token: JWT;
+  user: AdapterUser | AuthUser;
+}): Promise<any> {
+  session.accessToken = token.accessToken as string;
+  session.refreshToken = token.refreshToken as string;
+  session.userId = token.id;
+  return session;
+}
   },
 };
 export const getNextAuthServerSession = () => getServerSession(authOptions);

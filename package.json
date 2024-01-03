@@ -10,17 +10,22 @@
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@auth/mongodb-adapter": "^2.0.10",
+    "@vercel/blob": "^0.16.1",
     "antd": "^5.12.6",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.303.0",
+    "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
-    "react-icons": "^4.12.0"
+    "react-icons": "^4.12.0",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

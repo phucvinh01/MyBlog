@@ -1,22 +1,51 @@
-import { Popover } from 'antd';
+import { Popover} from 'antd';
 import { CiUser } from 'react-icons/ci';
 import React from 'react';
 import { signOut } from 'next-auth/react';
-import Route from './ui/Route';
 import { VscLoading } from 'react-icons/vsc';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Session } from 'next-auth';
+import extractUsernameFromEmail from '@/util/extractUsernameFromEmail';
+import { Settings, UserCog } from 'lucide-react';
+import Link from 'next/link';
+import { useTheme } from '@/content/ThemeProvider';
 
-const DisplayUser = ({ session, status }: { session: any; status: any }) => {
+const DisplayUser = ({
+  session,
+  status,
+}: {
+  session: Session;
+  status: any;
+}) => {
+  const {theme} = useTheme()
+ 
   const content = (
-    <div className='flex flex-col gap-4 px-3 py-2 text-primary dark:bg-dark dark:border dark:rounded-lg' >
-      <p className='text-primary'>
-        Hello! <strong className='text-primary text-sm'>{session?.user?.name}</strong>
-      </p>
-      <Route
-        label='My profile'
-        route={`/me`}
-      />
+    <div className='flex flex-col gap-4 px-3 py-2 text-primary dark:bg-[#000] dark:rounded-lg'>
+      <div className={`flex flex-col justify-center items-center relative p-3`}>
+        <Image
+          src={session.user?.image as string}
+          alt='logo-user'
+          width={150}
+          height={200}
+          className='brightness-50 rounded-md'
+        />
+        <div className='absolute flex gap-2 flex-col justify-center items-center'>
+          <div className='!text-2xl text-primary'>{session.user?.name}</div>
+          <div className='text-primary !text-sm'>
+            @{extractUsernameFromEmail(session.user?.email as string)}
+          </div>
+        </div>
+      </div>
+      <div className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
+        <UserCog size={24} className='text-primary' color={theme ==='light' ? '#000' : '#fff' }/>
+        <Link href={'/me'} className='text-primary'>Profile</Link>
+      </div>
+       <div className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
+        <Settings size={24} className='text-primary' color={theme ==='light' ? '#000' : '#fff' }/>
+        <Link href={'/me'} className='text-primary'>Account detail</Link>
+      </div>
+
       <button
         onClick={() => {
           signOut({ callbackUrl: 'http://localhost:3000/' });
@@ -29,10 +58,10 @@ const DisplayUser = ({ session, status }: { session: any; status: any }) => {
 
   const router = useRouter();
 
+
   if (status === 'unauthenticated') {
     router.replace('/login');
   }
-  console.log(session);
 
   return !session ? (
     <VscLoading />
@@ -43,21 +72,15 @@ const DisplayUser = ({ session, status }: { session: any; status: any }) => {
       <div className='btn-primary'>
         {session?.user?.image ? (
           <div className=' flex gap-1 justify-center items-center'>
-          <Image
-          loading='lazy'
-            src={session?.user?.image}
-            alt='img'
-            className='object-cover  rounded-full'
-            width={30}
-            height={30}
-          />
-          <span>
-            {
-              session?.user?.name
-            }
-          </span>
+            <Image
+              loading='lazy'
+              src={session?.user?.image}
+              alt='img'
+              className='object-cover  rounded-full'
+              width={30}
+              height={30}
+            />
           </div>
-
         ) : (
           <div className=''>
             <CiUser />

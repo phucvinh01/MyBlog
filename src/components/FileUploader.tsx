@@ -35,15 +35,15 @@ const FileUploader = ({ mediaUrl, onChange }: FileUploaderProps) => {
         <div className='flex flex-1 justify-center p-1 w-full lg:p-4'>
             <img className='rounded-xl object-cover'  src={fileUrl} />
         </div>
-        <p className='file_uploader-label'>Click or grap for change</p>
+        <p className='text-primary'>Click or grap for change</p>
         </>
         
       ) : (
         <div className='flex flex-col justify-center items-center gap-2 file_uploader-box'>
           <div className='text-3xl'><GoUpload /></div>
-          <h3 className='base-medium text-light-2'>Drap photo here.</h3>
-          <p className='small-regular text-light-2 text-sm'>PNG, JPG, SVG</p>
-          <button className='shad-button_dark_4'>Select From Computer</button>
+          <h3 className='base-medium text-primary'>Drap photo here.</h3>
+          <p className='small-regular text-primary text-sm'>PNG, JPG, SVG</p>
+          <div className='btn-primary'>Select From Computer</div>
         </div>
       )}
     </div>

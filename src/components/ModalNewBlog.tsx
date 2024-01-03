@@ -6,6 +6,8 @@ import FileUploader from './FileUploader';
 import { IoCloseOutline } from 'react-icons/io5';
 import TextArea from 'antd/es/input/TextArea';
 import { FileWithPath } from 'react-dropzone';
+import { useSession } from 'next-auth/react';
+import { PutBlobResult } from '@vercel/blob';
 const ModalNewBlog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState<FileWithPath[]>([]);
@@ -14,6 +16,7 @@ const ModalNewBlog = () => {
   const [location, setLocation] = useState('');
   const [caption, setCaption] = useState('');
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   const id = useId();
 
@@ -29,6 +32,7 @@ const ModalNewBlog = () => {
     setIsModalOpen(false);
   };
 
+
   const handleSubmit = async () => {
     setLoading(true);
     if (
@@ -41,42 +45,54 @@ const ModalNewBlog = () => {
       message.error('Please fill out all fields');
       setLoading(false);
       return;
-    }
-    else {
+    } else {
+      const file = image[0];
+
+      const response = await fetch(`/api/upload?filename=${file.name}`, {
+        method: 'POST',
+        body: file,
+      });
+
+      const newBlob = (await response.json()) as PutBlobResult;
+
+
+
 
       const blog = {
         title,
         tag,
         location,
-        caption,
-      }
+        image: newBlob.url,
+        author: session?.userId,
+      };
 
-      console.log(blog);
+      console.log("check blog clinet",blog);
+
       try {
-      const res = await fetch('/api/blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          blog
-        }),
-      });
-      if (res.status === 400) {
-        message.error("failed")
+        const res = await fetch('/api/blog', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            blog,
+          }),
+        });
+        if (res.status === 400) {
+          message.error('failed');
+          setLoading(false);
+        }
+        if (res.status === 200) {
+          message.success('success');
+          setLoading(false);
+          handleCancel();
+        }
+      } catch (error) {
+        console.log(error);
+        message.error('failed');
         setLoading(false);
       }
-      if (res.status === 200) {
-        message.success("success")
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-        message.error("failed")
-      setLoading(false);
     }
-    }
-  
   };
 
   return (
@@ -88,7 +104,8 @@ const ModalNewBlog = () => {
         <p>New</p>
       </button>
       <Modal
-        width={600}
+      centered
+        width={1000}
         className='relative'
         footer={null}
         open={isModalOpen}
@@ -111,48 +128,51 @@ const ModalNewBlog = () => {
           </div>
           <div className='w-full p-4 flex gap-5 flex-col'>
             <div className='flex gap-2 flex-col justify-center'>
-              <label htmlFor={id + 'title'}>Title</label>
+              <label className=' text-primary' htmlFor={id + 'title'}>Title</label>
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type='text'
                 id={id + 'title'}
                 max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-sm'
+                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
               />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label htmlFor={id + 'caption'}>Caption</label>
+              <label className=' text-primary' htmlFor={id + 'caption'}>Caption</label>
               <TextArea
                 onChange={(e) => setCaption(e.target.value)}
                 value={caption}
-                autoSize
                 maxLength={2200}
                 showCount
+                size='large'
                 id={id + 'caption'}
-                className='h-[[220px] focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm'
+                style={{
+                  height:220
+                }}
+                className=' focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm'
               />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label htmlFor={id + 'Tag'}>Tag</label>
+              <label className=' text-primary' htmlFor={id + 'Tag'}>Tag</label>
               <input
                 onChange={(e) => setTag(e.target.value)}
                 value={tag}
                 type='text'
                 id={id + 'Tag'}
                 max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-sm'
+                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
               />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label htmlFor={id + 'Location'}>Location</label>
+              <label className=' text-primary' htmlFor={id + 'Location'}>Location</label>
               <input
                 onChange={(e) => setLocation(e.target.value)}
                 value={location}
                 type='text'
                 id={id + 'Location'}
                 max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-sm'
+                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
               />
             </div>
           </div>
