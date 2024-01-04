@@ -9,7 +9,7 @@ import { JWT } from 'next-auth/jwt';
 import connectDB from '@/util/database';
 import { sign } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { createNewUser, getIdUser} from '@/services/userServices';
+import { createNewUser, getIdUser } from '@/services/userServices';
 import { AdapterUser } from 'next-auth/adapters';
 
 export const authOptions: NextAuthOptions = {

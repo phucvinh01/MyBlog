@@ -1,9 +1,8 @@
-import ListBlog from "@/components/shared/ListBlog";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <ListBlog/>  
+    <div className="min-h-screen p-3">
+     
     </div>
   )
 }

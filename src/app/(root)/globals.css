@@ -21,9 +21,8 @@ a:hover{
 .btn-grad {
             background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
             margin: 10px;
-            padding: 10px 35px;
+            padding: 10px 20px;
             text-align: center;
-            text-transform: uppercase;
             transition: 0.5s;
             background-size: 200% auto;
             color: white;            
@@ -57,6 +56,25 @@ a:hover{
             color: #fff;
             text-decoration: none;
           }
+           
+         .btn-grad-secondary {
+            background-image: linear-gradient(to right, #403B4A 0%, #E7E9BB  51%, #403B4A  100%);
+            margin: 10px;
+            text-align: center;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+          }
+
+          .btn-grad-secondary:hover {
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+          }
+         
 
   .background-dark {
     background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
@@ -81,6 +99,9 @@ a:hover{
     }
     .btn-primary-rounded {
         @apply btn-grad-rounded
+    }
+    .btn-secondary {
+      @apply btn-grad-secondary
     }
 
    

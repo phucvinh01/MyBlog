@@ -27,7 +27,6 @@ export const createNewUser = async (user: IUser) => {
   }
 };
 
-
 export const getIdUser =  async (email: any) => {
    await connectDB()
   try {
@@ -35,6 +34,26 @@ export const getIdUser =  async (email: any) => {
     console.log("check existingId >>>>>>>>>",existingId);
     if(existingId) {
       return existingId._id
+    }
+    else {
+      return false
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export const getUserCurrent =  async (email: any) => {
+   await connectDB()
+  try {
+    const userCurrent = await User.findOne({ email: email });
+    if(userCurrent) {
+      const { password, ...userWithoutPassword } = userCurrent;
+      console.log("check userWithoutPassword >>>", userWithoutPassword._doc);
+
+      return userWithoutPassword._doc
     }
     else {
       return false

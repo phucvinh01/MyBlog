@@ -7,7 +7,7 @@ import ModalNewBlog from './ModalNewBlog';
 const MenuHorizontal = () => {
 
   return (
-    <div className='flex justify-center mt-10 font-medium'>
+    <div className=' flex justify-center font-medium top-[100px] z-40 sticky'>
       <ul className='flex gap-[10px] h-[46px] shadow-2xl rounded-3xl bg-slate-50'>
         <li className={`px-[50px] py-[12px]  cursor-pointer hover:bg-slate-300 transition-transform rounded-3xl`}>
           <ModalNewBlog />

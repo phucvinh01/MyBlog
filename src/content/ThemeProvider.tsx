@@ -63,6 +63,12 @@ export default function ThemeContextProvider({
             padding:0,
             margin:0
           },
+          components: {
+            Layout: {
+              bodyBg: 'transparent',
+              siderBg: 'transparent'
+            }
+          }
         }}>
         {children}
       </ConfigProvider>

@@ -6,8 +6,11 @@ type IUser = {
   password?: string;
   name?: string | null | undefined;
   image?:string | null | undefined;
+  username?: tring | null | undefined;
   id: string 
-  role: string
+  role?: string,
+  createdAt?: string,
+  bio?:string
 };
 
 type Author = {
@@ -27,7 +30,7 @@ type IBlog = {
   author?: Author,
   slug?: string,
   location?: string,
-  createAt: string
+  createdAt: string
 }
 
 

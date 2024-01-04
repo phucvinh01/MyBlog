@@ -26,11 +26,23 @@ export const createBlog = async (blog: INewBlog) => {
   }
 };
 
-
 export const getAllBlog = async () => {
   await connectDB();
   try {
-    const listBlog = await Blog.find({}).populate('author').exec()
+    const listBlog = await Blog.find({}).populate('author').sort({ createdAt: -1 }).exec()
+    if(listBlog) {
+      return listBlog;
+    }
+  } catch (error) {
+    console.log(error);
+    return false
+  }
+};
+
+export const getBlogByAuthor = async (idAuthor: string) => {
+  await connectDB();
+  try {
+    const listBlog = await Blog.find({author: idAuthor}).populate('author').sort({ createdAt: -1 }).exec()
     if(listBlog) {
       return listBlog;
     }

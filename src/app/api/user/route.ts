@@ -1,14 +1,15 @@
-import { getIdUser } from '@/services/userServices';
+import { getUserCurrent } from '@/services/userServices';
 import connectDB from '@/util/database';
 import { NextResponse } from 'next/server';
 
 export const POST = async (request: any) => {
   const { email } = await request.json();
-  console.log(email);
   await connectDB();
 
+  console.log("check email", email);
+
   try {
-    const id = await getIdUser(email);
+    const id = await getUserCurrent(email);
     if (id) {
       return NextResponse.json(id);
     } else {
