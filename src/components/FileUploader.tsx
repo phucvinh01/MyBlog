@@ -33,7 +33,7 @@ const FileUploader = ({ mediaUrl, onChange }: FileUploaderProps) => {
       {fileUrl ? (
         <>
         <div className='flex flex-1 justify-center p-1 w-full lg:p-4'>
-            <img className='rounded-xl object-cover'  src={fileUrl} />
+            <img className='rounded-xl object-contain max-w-[390px]'  src={fileUrl} />
         </div>
         <p className='text-primary'>Click or grap for change</p>
         </>

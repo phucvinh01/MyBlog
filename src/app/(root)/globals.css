@@ -104,6 +104,19 @@ a:hover{
       @apply btn-grad-secondary
     }
 
+
+    .h2 {
+      @apply font-bold text-3xl text-black dark:text-white leading-9
+    }
+
+
+    .h3 {
+      @apply font-semibold text-lg text-black dark:text-white leading-6
+    }
+
+    .text-muted {
+      @apply text-sm font-medium  text-[#5c6a78] leading-6 dark:text-white
+    }
    
 
     .text-primary {

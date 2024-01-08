@@ -62,6 +62,7 @@ const ModalNewBlog = () => {
         title,
         tag,
         location,
+        caption,
         image: newBlob.url,
         author: session?.userId,
       };
@@ -85,6 +86,10 @@ const ModalNewBlog = () => {
         if (res.status === 200) {
           message.success('success');
           setLoading(false);
+          setCaption("")
+          setLocation("")
+          setTag("")
+          setTitle("")
           handleCancel();
         }
       } catch (error) {

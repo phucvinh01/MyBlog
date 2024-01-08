@@ -1,16 +1,17 @@
 import { IBlog } from '@/types/backend';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRightSquare, Forward, GripVertical, MessageSquareMore } from 'lucide-react';
+import { ArrowUpRightSquare, Dot, Forward, GripVertical, MessageSquareMore } from 'lucide-react';
 import { useTheme } from '@/content/ThemeProvider';
 import formatDate from '@/util/formatDate';
+import { truncateText } from '@/util/trunctedText';
 
 const BlogCard = ({ post }: { post: IBlog }) => {
 
   const {theme} = useTheme()
   return (
-    <div className=' flex flex-col gap-2 p-4 bg-neutral-200 dark:bg-black max-w-[400px] rounded-3xl'>
-        <div className='flex justify-between items-center gap-3'>
+    <div className='gap-2 p-4 bg-white dark:bg-black max-w-[380px]'>
+        {/* <div className='flex justify-between items-center gap-3'>
           <Link href={`/profile/${post.author?.id}`}>
             <Image
               src={post.author?.image as string}
@@ -43,7 +44,39 @@ const BlogCard = ({ post }: { post: IBlog }) => {
           <div>
           <Forward  color={theme === 'light' ? 'black' : 'white'}/> 
           </div>
-      </div>     
+      </div>      */}
+      <div className='flex gap-5 flex-col '>
+       <Image
+        src={post.image as string}
+        width={350}
+        height={250}
+        loading='lazy'
+        alt='creator'
+        className='cursor-pointer rounded-lg object-cover min-h-[250px] min-w-[350px] max-w-[350px] max-h-[250px] hover:scale-110 transition-all'
+      />
+      <h2 className='h3'>
+        {truncateText(post.title as string, 80)}
+      </h2>
+
+      <p className='text-muted'>{truncateText(post.caption as string, 150)} <span className='text-end cursor-pointer'>...Xem thêm</span></p>
+
+       <div className='flex gap-2'>
+            <Image
+            width={24}
+            height={24}
+            alt='img-author'
+              className='rounded-full object-cover'
+              src={post.author?.image as string}
+            />
+            <p className='text-muted'>{post.author?.name}</p>
+            <Dot
+              className='text-muted'
+              color='#5c6a78'
+            />
+            <p className='text-muted'>{formatDate(post.createdAt)}</p>
+          </div>
+
+      </div>
     </div>
   );
 };

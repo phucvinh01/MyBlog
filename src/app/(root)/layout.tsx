@@ -22,14 +22,14 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${inter.className}`} suppressHydrationWarning={true}>
+      <body className={`${inter.className}`} >
         <AuthProvider>
           <AntdRegistry>
             <ThemeContextProvider>
-              <main className='dark:bg-dark'>
                 <Header />
-                <Suspense fallback='Loading...'>{children}</Suspense>
-                <Footer />
+              <main className='dark:bg-dark bg-[#F9FAFB]'>
+              
+               {children}
               </main>
             </ThemeContextProvider>
           </AntdRegistry>

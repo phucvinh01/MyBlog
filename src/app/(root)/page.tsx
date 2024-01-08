@@ -1,8 +1,11 @@
+import Hero from "@/components/Hero";
+import SessionCurrentBlog from "@/components/SectionCurrentBlog";
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-3">
-     
+    <div className="min-h-screen bg-white">
+        <Hero/>
+        <SessionCurrentBlog/>
     </div>
   )
 }

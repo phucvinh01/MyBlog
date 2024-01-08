@@ -27,7 +27,7 @@ const ListBlog = () => {
   
 
   return (
-    <div className='px-[80px] grid grid-cols-3 justify-center items-center gap-4'>
+    <div className='grid grid-cols-3 justify-center items-center gap-4'>
         {
             listBlog.map((item,index) => {
                 return <div className='flex justify-center'>
