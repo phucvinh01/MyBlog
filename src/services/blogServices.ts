@@ -51,3 +51,15 @@ export const getBlogByAuthor = async (idAuthor: string) => {
     return false
   }
 }
+
+export const getLastestBlog = async () => {
+  try {
+    const lastestBlog = await Blog.find({}).populate('author').sort({ createdAt: -1 }).limit(3).exec()
+    if(lastestBlog) {
+      return lastestBlog;
+    }
+  } catch (error) {
+    console.log(error);
+    return false
+  }
+}
