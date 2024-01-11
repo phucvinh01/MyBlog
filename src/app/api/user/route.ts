@@ -6,7 +6,6 @@ export const POST = async (request: any) => {
   const { email } = await request.json();
   await connectDB();
 
-  console.log("check email", email);
 
   try {
     const id = await getUserCurrent(email);

@@ -15,10 +15,8 @@ export const createNewUser = async (user: IUser) => {
         image: user.image,
       });
       await newUser.save();
-      console.log('New user created:', newUser);
       return newUser;
     } else {
-      console.log('User already exists:', existingUser);
       return existingUser;
     }
   } catch (err) {
@@ -31,7 +29,6 @@ export const getIdUser =  async (email: any) => {
    await connectDB()
   try {
     const existingId = await User.findOne({ email: email });
-    console.log("check existingId >>>>>>>>>",existingId);
     if(existingId) {
       return existingId._id
     }
@@ -51,7 +48,6 @@ export const getUserCurrent =  async (email: any) => {
     const userCurrent = await User.findOne({ email: email });
     if(userCurrent) {
       const { password, ...userWithoutPassword } = userCurrent;
-      console.log("check userWithoutPassword >>>", userWithoutPassword._doc);
 
       return userWithoutPassword._doc
     }

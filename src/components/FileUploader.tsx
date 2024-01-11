@@ -13,7 +13,6 @@ const FileUploader = ({ mediaUrl, onChange }: FileUploaderProps) => {
     (acceptedFiles: FileWithPath[]) => {
       setFile(acceptedFiles);
       setFileUrl(URL.createObjectURL(acceptedFiles[0]));
-      console.log("check accptedFile", acceptedFiles[0]);
       onChange(acceptedFiles);
     },
     [file]

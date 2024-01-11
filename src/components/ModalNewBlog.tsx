@@ -4,13 +4,16 @@ import { Modal, message } from 'antd';
 import { IoCreateOutline } from 'react-icons/io5';
 import FileUploader from './FileUploader';
 import { IoCloseOutline } from 'react-icons/io5';
-import TextArea from 'antd/es/input/TextArea';
+import { storage } from '@/config/firebaseConfig';
 import { FileWithPath } from 'react-dropzone';
 import { useSession } from 'next-auth/react';
-import { PutBlobResult } from '@vercel/blob';
+import Editor from './RichTextEditor';
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import TextArea from 'antd/es/input/TextArea';
 const ModalNewBlog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState<FileWithPath[]>([]);
+  const [imageAsUrl, setImageAsUrl] = useState<string>('');
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
   const [location, setLocation] = useState('');
@@ -32,7 +35,6 @@ const ModalNewBlog = () => {
     setIsModalOpen(false);
   };
 
-
   const handleSubmit = async () => {
     setLoading(true);
     if (
@@ -48,14 +50,19 @@ const ModalNewBlog = () => {
     } else {
       const file = image[0];
 
-      const response = await fetch(`/api/upload?filename=${file.name}`, {
-        method: 'POST',
-        body: file,
+
+      // const response = await fetch(`/api/upload?filename=${file.name}`, {
+      //   method: 'POST',
+      //   body: file,
+      // });
+
+      // const newBlob = (await response.json()) as PutBlobResult;
+      const storageRef = ref(storage, `files/${file.name}`);
+      uploadBytes(storageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((downloadURL) => {
+          setImageAsUrl(downloadURL)
+        });
       });
-
-      const newBlob = (await response.json()) as PutBlobResult;
-
-
 
 
       const blog = {
@@ -63,11 +70,10 @@ const ModalNewBlog = () => {
         tag,
         location,
         caption,
-        image: newBlob.url,
+        image: imageAsUrl,
         author: session?.userId,
       };
 
-      console.log("check blog clinet",blog);
 
       try {
         const res = await fetch('/api/blog', {
@@ -86,10 +92,10 @@ const ModalNewBlog = () => {
         if (res.status === 200) {
           message.success('success');
           setLoading(false);
-          setCaption("")
-          setLocation("")
-          setTag("")
-          setTitle("")
+          setCaption('');
+          setLocation('');
+          setTag('');
+          setTitle('');
           handleCancel();
         }
       } catch (error) {
@@ -101,7 +107,7 @@ const ModalNewBlog = () => {
   };
 
   return (
-    <>
+    <div className='w-full'>
       <button
         onClick={showModal}
         className='flex items-center gap-3   focus:ring-2, focus:ring-blue-500, focus:ring-opacity-50'>
@@ -109,17 +115,17 @@ const ModalNewBlog = () => {
         <p>New</p>
       </button>
       <Modal
-      centered
-        width={1000}
-        className='relative'
+        centered
+        className='relative w-full'
         footer={null}
-        open={isModalOpen}
         closeIcon={null}
+        width={1100}
+        open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <div className='flex justify-end absolute right-[-20px] top-[-25px]'>
+        <div className='flex justify-end absolute right-[-10px] top-[-10px] p-1'>
           <button
-            className='btn-primary-rounded'
+            className='btn-primary-rounded '
             onClick={handleCancel}>
             {' '}
             <span className='text-xl'>
@@ -127,13 +133,17 @@ const ModalNewBlog = () => {
             </span>
           </button>
         </div>
-        <form className='flex gap-4 '>
+        <form className='flex gap-4 flex-col'>
           <div className='flex justify-center items-center p-4 border-2 rounded-md min-w-[45%]'>
             <FileUploader onChange={setImage} />
           </div>
           <div className='w-full p-4 flex gap-5 flex-col'>
             <div className='flex gap-2 flex-col justify-center'>
-              <label className=' text-primary' htmlFor={id + 'title'}>Title</label>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'title'}>
+                Title
+              </label>
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
@@ -144,7 +154,11 @@ const ModalNewBlog = () => {
               />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label className=' text-primary' htmlFor={id + 'caption'}>Caption</label>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'caption'}>
+                Caption
+              </label>
               <TextArea
                 onChange={(e) => setCaption(e.target.value)}
                 value={caption}
@@ -157,9 +171,14 @@ const ModalNewBlog = () => {
                 }}
                 className=' focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm'
               />
+              {/* <Editor /> */}
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label className=' text-primary' htmlFor={id + 'Tag'}>Tag</label>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'Tag'}>
+                Tag
+              </label>
               <input
                 onChange={(e) => setTag(e.target.value)}
                 value={tag}
@@ -170,7 +189,11 @@ const ModalNewBlog = () => {
               />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
-              <label className=' text-primary' htmlFor={id + 'Location'}>Location</label>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'Location'}>
+                Location
+              </label>
               <input
                 onChange={(e) => setLocation(e.target.value)}
                 value={location}
@@ -192,7 +215,7 @@ const ModalNewBlog = () => {
           </button>
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 

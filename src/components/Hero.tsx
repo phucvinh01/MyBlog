@@ -39,7 +39,7 @@ const Hero = () => {
           alt='hero.img'
           width={570}
           height={340}
-          className='rounded-xl min-h-[400px] object-center'
+          className='rounded-xl max-h-[340px] max-w-[570px] object-cover'
         />
         <div className='p-10 flex gap-4 flex-col'>
           <p className='text-primary'>New</p>

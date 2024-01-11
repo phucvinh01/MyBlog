@@ -1,16 +1,14 @@
 import { IBlog } from '@/types/backend';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRightSquare, Dot, Forward, GripVertical, MessageSquareMore } from 'lucide-react';
-import { useTheme } from '@/content/ThemeProvider';
+import { Dot } from 'lucide-react';
 import formatDate from '@/util/formatDate';
 import { truncateText } from '@/util/trunctedText';
+import { useRouter } from 'next/navigation';
 
-const BlogCard = ({ post }: { post: IBlog }) => {
-
-  const {theme} = useTheme()
+const BlogCard = ({ post, mode }: { post: IBlog, mode: any }) => {
+  const router = useRouter()
   return (
-    <div className='gap-2 p-4 bg-white dark:bg-black max-w-[380px]'>
+    <div className='gap-2 p-4 bg-white dark:bg-black max-w-[380px]' onClick={() => router.push(`/blog/${post.slug}`)}>
         {/* <div className='flex justify-between items-center gap-3'>
           <Link href={`/profile/${post.author?.id}`}>
             <Image
@@ -58,7 +56,7 @@ const BlogCard = ({ post }: { post: IBlog }) => {
         {truncateText(post.title as string, 80)}
       </h2>
 
-      <p className='text-muted'>{truncateText(post.caption as string, 150)} <span className='text-end cursor-pointer'>...Xem thêm</span></p>
+      <p className={`text-muted ${mode === 'vertical' ? '' : 'max-h-[100px] min-h-[100px]'}`}>{truncateText(post.caption as string, 150)} {post.caption && post.caption.length > 150 ? <span className='text-end cursor-pointer'></span> : "" } </p>
 
        <div className='flex gap-2'>
             <Image
@@ -75,7 +73,6 @@ const BlogCard = ({ post }: { post: IBlog }) => {
             />
             <p className='text-muted'>{formatDate(post.createdAt)}</p>
           </div>
-
       </div>
     </div>
   );

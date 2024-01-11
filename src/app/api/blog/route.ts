@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export const POST = async (request: any) => {
   const { blog } = await request.json();
-    console.log("check blog server" ,blog);
   await connectDB()
 
   try {

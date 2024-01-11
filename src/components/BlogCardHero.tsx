@@ -1,12 +1,16 @@
 import { IBlog } from '@/types/backend'
 import formatDate from '@/util/formatDate'
 import { Dot } from 'lucide-react'
+import Image from 'next/image'
 import React from 'react'
 
 const BlogCardHero = ( {post}: {post:IBlog}) => {
   return (
     <div className='flex gap-3 shadow-sm bg-white dark:bg-black p-2 rounded-xl'>
-        <img
+        <Image
+        alt='img'
+        width={280}
+        height={200}
         className='w-[280px] h-[200px] rounded-lg object-cover'
         src={post.image}/>
         <div className='flex gap-3 flex-col p-4 justify-center'>

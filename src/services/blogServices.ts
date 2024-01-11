@@ -8,7 +8,7 @@ export const createBlog = async (blog: INewBlog) => {
   await connectDB();
   try {
     const title = `${blog.title}-${nanoid(5)}`;
-    const slug = slugify(title, { replacement: '-', locale: 'vi' });
+    const slug = slugify(title, { replacement: '-', locale: 'vi', remove: /[*+~.()'"!:@]/g });
     const newBlog = new Blog({
       title: blog.title,
       image: blog.image,
@@ -57,6 +57,19 @@ export const getLastestBlog = async () => {
     const lastestBlog = await Blog.find({}).populate('author').sort({ createdAt: -1 }).limit(3).exec()
     if(lastestBlog) {
       return lastestBlog;
+    }
+  } catch (error) {
+    console.log(error);
+    return false
+  }
+}
+
+export const getOneBlogBySlug = async (slug: string) => {
+  try {
+    const blog = await Blog.findOne({"slug":slug}).populate('author').exec()
+
+    if(blog) {
+      return blog;
     }
   } catch (error) {
     console.log(error);

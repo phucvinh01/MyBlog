@@ -31,7 +31,7 @@ const SessionCurrentBlog = () => {
         </ul>
       </div>
       <div className='mt-[50px]'>
-        <ListBlog/>
+        <ListBlog mode='horizontal'/>
       </div>
     </section>
   );
