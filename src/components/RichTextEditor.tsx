@@ -1,47 +1,62 @@
-import {useEffect} from 'react';
+import React, { useState } from 'react';
+import ReactQuill , {Quill} from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import {} from 'quill'
 
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 
-const theme = {
+type EditorProps = {
+  value: string ,
+  setValue: React.Dispatch<React.SetStateAction<string>>
 }
 
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
+export default function Editor({value, setValue}:EditorProps) {
 
-  useEffect(() => {
-    editor.focus();
-  }, [editor]);
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'color', 'image'],
+      [{ 'code-block': true }],
+      ['clean'],
+    ],
+  };
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'link',
+    'indent',
+    'image',
+    'code-block',
+    'color',
+  ];
 
-  return null;
-}
-
-function onError(error: Error) {
-  console.error(error);
-}
-
-export default function Editor() {
-  const initialConfig = {
-    namespace: 'MyEditor',
-    theme,
-    onError,
+  const contentStyle = {
+    blockquote: {
+      borderLeft: '2px solid #ddd',
+      paddingLeft: '10px',
+      fontStyle: 'italic',
+      color: '#888',
+      margin: '0',
+    },
   };
 
   return (
     <div className='relative'>
-    <LexicalComposer initialConfig={initialConfig}>
-      <PlainTextPlugin
-        contentEditable={<ContentEditable className=' focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm h-[240px]'/>}
-        placeholder={<div className='absolute top-0 px-3 py-1'>Enter some text...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <HistoryPlugin />
-      <MyCustomAutoFocusPlugin />
-    </LexicalComposer>
+      <ReactQuill
+        theme='snow'
+        value={value}
+        onChange={setValue}
+        modules={modules}
+        formats={formats}
+        
+        />
     </div>
   );
 }

@@ -64,7 +64,6 @@ const ModalNewBlog = () => {
         });
       });
 
-
       const blog = {
         title,
         tag,
@@ -159,7 +158,7 @@ const ModalNewBlog = () => {
                 htmlFor={id + 'caption'}>
                 Caption
               </label>
-              <TextArea
+              {/* <TextArea
                 onChange={(e) => setCaption(e.target.value)}
                 value={caption}
                 maxLength={2200}
@@ -170,8 +169,8 @@ const ModalNewBlog = () => {
                   height:220
                 }}
                 className=' focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm'
-              />
-              {/* <Editor /> */}
+              /> */}
+              <Editor setValue={setCaption} value={caption} />
             </div>
             <div className='flex gap-2 flex-col justify-center'>
               <label

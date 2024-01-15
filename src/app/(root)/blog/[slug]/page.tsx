@@ -4,7 +4,7 @@ import fetcher from '@/util/fetcher';
 import formatDate from '@/util/formatDate';
 import { Dot } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import ReactHtmlParser from 'html-react-parser';
 import { FacebookIcon, FacebookShareButton } from 'react-share';
 import useSWR from 'swr';
 const Page = ({ params }: { params: { slug: string } }) => {
@@ -65,8 +65,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           <FacebookIcon size={32} round />
         </FacebookShareButton>
         </div>
-         
-        <p className='text-justify'>{data.data.caption}</p>
+        <div className='text-justify'>{ReactHtmlParser(data.data.caption)}</div>
 
       </div>
       <div className='w-1/3'></div>
