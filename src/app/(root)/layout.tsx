@@ -3,10 +3,10 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import AuthProvider from '@/content/AuthProvide';
 import Header from '@/components/ui/Layout/Header';
-import Footer from '@/components/ui/Layout/Footer';
 import ThemeContextProvider from '@/content/ThemeProvider';
-import { Suspense } from 'react';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import 'nprogress/nprogress.css';
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,14 +22,14 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${inter.className}`} >
+      <body className={`${inter.className}`}>
         <AuthProvider>
           <AntdRegistry>
             <ThemeContextProvider>
-                <Header />
               <main className='dark:bg-dark bg-[#F9FAFB]'>
-              
-               {children}
+                <Header />
+                <NextTopLoader />
+                {children}
               </main>
             </ThemeContextProvider>
           </AntdRegistry>

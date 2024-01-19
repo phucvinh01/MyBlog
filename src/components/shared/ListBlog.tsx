@@ -35,7 +35,7 @@ const ListBlog = ({mode}: BlogProp) => {
         return (
           <div key={index} className='flex items-center justify-center'>
             <BlogCard
-            mode = {mode}
+              mode = {mode}
               key={index}
               post={item}
             />

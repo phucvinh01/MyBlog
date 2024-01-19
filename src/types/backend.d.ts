@@ -17,14 +17,14 @@ type Author = {
    email?: string | null | undefined;
   name?: string | null | undefined;
   image?:string | null | undefined;
-  id: string 
+  _id: string 
   role: string
 }
 
 
 type IBlog = {
   title: string,
-  caption?: string | null,
+  caption: string ,
   image: string,
   tag?: [string],
   author?: Author,

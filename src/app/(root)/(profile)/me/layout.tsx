@@ -6,8 +6,10 @@ const inter = Inter({ subsets: ['latin'] });
 const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`${inter.className}   min-h-screen relative`}>
-      <div className='absolute left-0 w-[350px] border-r-[4px] hidden sm:block bg-transparent dark:border-[#000]  h-full'></div>
-      <MenuHorizontal />
+      <div className='absolute left-0 w-[350px] border-r-[4px] hidden sm:block bg-transparent dark:border-[#000]  h-full'>
+        <MenuHorizontal />
+      </div>
+      
       <LeftSideBarProfile />
         {children}
     </div>
