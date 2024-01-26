@@ -35,7 +35,10 @@ const ModalNewBlog = () => {
     setIsModalOpen(false);
   };
 
+
   const handleSubmit = async () => {
+
+
     setLoading(true);
     if (
       title === '' ||
@@ -50,13 +53,6 @@ const ModalNewBlog = () => {
     } else {
       const file = image[0];
 
-
-      // const response = await fetch(`/api/upload?filename=${file.name}`, {
-      //   method: 'POST',
-      //   body: file,
-      // });
-
-      // const newBlob = (await response.json()) as PutBlobResult;
       const storageRef = ref(storage, `files/${file.name}`);
       uploadBytes(storageRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((downloadURL) => {
