@@ -21,14 +21,15 @@ const DisplayUser = ({
   const {theme} = useTheme()
  
   const content = (
-    <div className='flex flex-col gap-4 px-3 py-2 text-primary dark:bg-[#000] dark:rounded-lg'>
-      <div className={`flex flex-col justify-center items-center relative p-3`}>
+    <>
+    
+     <div className={`flex flex-col items-center justify-center relative `}>
         <Image
           src={session.user?.image as string}
           alt='logo-user'
           width={150}
           height={200}
-          className='brightness-50 rounded-md'
+          className='brightness-50 rounded-md w-full'
         />
         <div className='absolute flex gap-2 flex-col justify-center items-center'>
           <div className='!text-2xl text-primary'>{session.user?.name}</div>
@@ -37,6 +38,7 @@ const DisplayUser = ({
           </div>
         </div>
       </div>
+    <div className='flex flex-col gap-4 px-10 py-4 text-primary dark:bg-[#000] dark:rounded-lg'>
       <div className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
         <UserCog size={24} className='text-primary' color={theme ==='light' ? '#000' : '#fff' }/>
         <Link href={'/me'} className='text-primary'>Profile</Link>
@@ -54,6 +56,7 @@ const DisplayUser = ({
         Logout
       </button>
     </div>
+    </>
   );
 
   const router = useRouter();
@@ -68,7 +71,12 @@ const DisplayUser = ({
   ) : (
     <Popover
       content={content}
-      trigger={['click']}>
+      trigger={['click']}
+      fresh = {false}
+      overlayInnerStyle={{
+        padding:0
+      }}
+      >
       <div className='btn-primary'>
         {session?.user?.image ? (
           <div className=' flex gap-1 justify-center items-center'>

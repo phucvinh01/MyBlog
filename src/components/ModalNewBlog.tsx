@@ -38,34 +38,35 @@ const ModalNewBlog = () => {
 
   const handleSubmit = async () => {
 
+    //console.log("check caption", caption);
 
     setLoading(true);
     if (
       title === '' ||
       tag === '' ||
       location === '' ||
-      caption === '' ||
-      image.length === 0
+      caption === '' 
     ) {
       message.error('Please fill out all fields');
       setLoading(false);
       return;
     } else {
-      const file = image[0];
 
-      const storageRef = ref(storage, `files/${file.name}`);
-      uploadBytes(storageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((downloadURL) => {
-          setImageAsUrl(downloadURL)
-        });
-      });
+      // const file = image[0];
+
+      // const storageRef = ref(storage, `files/${file.name}`);
+      // uploadBytes(storageRef, file).then((snapshot) => {
+      //   getDownloadURL(snapshot.ref).then((downloadURL) => {
+      //     setImageAsUrl(downloadURL)
+      //   });
+      // });
 
       const blog = {
         title,
         tag,
         location,
         caption,
-        image: imageAsUrl,
+        image: 'asdadsd',
         author: session?.userId,
       };
 
