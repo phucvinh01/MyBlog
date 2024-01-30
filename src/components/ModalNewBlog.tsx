@@ -52,21 +52,21 @@ const ModalNewBlog = () => {
       return;
     } else {
 
-      // const file = image[0];
+      const file = image[0];
 
-      // const storageRef = ref(storage, `files/${file.name}`);
-      // uploadBytes(storageRef, file).then((snapshot) => {
-      //   getDownloadURL(snapshot.ref).then((downloadURL) => {
-      //     setImageAsUrl(downloadURL)
-      //   });
-      // });
+      const storageRef = ref(storage, `files/${file.name}`);
+      uploadBytes(storageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((downloadURL) => {
+          setImageAsUrl(downloadURL)
+        });
+      });
 
       const blog = {
         title,
         tag,
         location,
         caption,
-        image: 'asdadsd',
+        image: imageAsUrl,
         author: session?.userId,
       };
 
