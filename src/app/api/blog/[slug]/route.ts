@@ -1,21 +1,39 @@
-import { getOneBlogBySlug } from '@/services/blogServices';
+import { deleteBlogBySlug, getOneBlogBySlug } from '@/services/blogServices';
 import connectDB from '@/util/database';
 import { NextResponse } from 'next/server';
 
 export const GET = async (request: Request) => {
+
   const { pathname } = new URL(request.url);
 
   const slug = pathname.split('blog/')[1];
-
-
   await connectDB();
-
   try {
     const data = await getOneBlogBySlug(slug as string);
     if (data) {
       return NextResponse.json({ data });
     } else {
       return new NextResponse('get blog failed', { status: 500 });
+    }
+  } catch (err: any) {
+    return new NextResponse(err, {
+      status: 500,
+    });
+  }
+};
+
+export const POST = async (request: Request) => {
+
+  const { pathname } = new URL(request.url);
+
+  const slug = pathname.split('blog/')[1];
+  await connectDB();
+  try {
+    const data = await deleteBlogBySlug(slug as string);
+    if (data) {
+      return NextResponse.json({ data });
+    } else {
+      return new NextResponse('delete blog failed', { status: 500 });
     }
   } catch (err: any) {
     return new NextResponse(err, {

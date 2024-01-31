@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
      
-        <header className='top-0 z-40 sticky'>
+        <header className='top-0 z-40 sticky mb-10'>
           <nav className='bg-white border-gray-200 px-4 lg:px-6 dark:bg-dark py-3 sticky'>
             <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
               <Link

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Dot } from 'lucide-react';
 import BlogCardHero from './BlogCardHero';
 import useSWR from 'swr';
-import { Skeleton } from 'antd';
+import { Empty, Skeleton } from 'antd';
 import formatDate from '@/util/formatDate';
 import { truncateText } from '@/util/trunctedText';
 import ReactHtmlParser from 'html-react-parser';
@@ -27,7 +27,7 @@ const Hero = () => {
   }
   if (isLoading) {
     return (
-      <div className='bg-[#F9FAFB] dark:bg-slate-600 rounded-b-[80px]  p-10'>
+      <div className='bg-[#F9FAFB] dark:bg-slate-600 rounded-b-[80px]  p-10 flex flex-col'>
         <section className='p-2 bg-white dark:bg-black rounded-lg flex gap-4 shadow-sm'>
           <Skeleton />
         </section>
@@ -40,6 +40,17 @@ const Hero = () => {
       </div>
     );
   }
+
+  if(data.data.length === 0) {
+    return(
+       <div className='bg-[#F9FAFB] dark:bg-slate-600 rounded-b-[80px]  p-10 flex flex-col'>
+        <section className='flex justify-center items-center p-2 bg-white dark:bg-black rounded-lg gap-4 shadow-sm'>
+          <Empty />
+        </section>        
+      </div>
+    )
+  }
+
 
   return (
     <div className='bg-[#F9FAFB] dark:bg-slate-600 rounded-b-[80px]  p-10'>
@@ -80,12 +91,15 @@ const Hero = () => {
           </div>
         </div>
       </section>
-      <section className='mt-5 flex gap-5 '>
+      {
+        data.data.length > 2 && <section className='mt-5 flex gap-5 '>
         <div className='flex gap-11'>
           <BlogCardHero post={data.data[1]} />
           <BlogCardHero post={data.data[2]} />
         </div>
       </section>
+      }
+      
     </div>
   );
 };

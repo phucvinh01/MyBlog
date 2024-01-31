@@ -1,4 +1,4 @@
-import { IBlog, INewBlog } from '@/types/backend';
+import { INewBlog } from '@/types/backend';
 import connectDB from '@/util/database';
 import Blog from '@/models/blog';
 import { nanoid } from 'nanoid';
@@ -6,12 +6,7 @@ import slugify from 'slugify';
 import cheerio from 'cheerio';
 import sharp from 'sharp';
 import { storage } from '@/config/firebaseConfig';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  UploadResult,
-} from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes, deleteObject  } from 'firebase/storage';
 import { random6Char } from '@/util/randomChar';
 
 function extractElements(content: string) {
@@ -72,7 +67,7 @@ export const createBlog = async (blog: INewBlog) => {
       })
     );
 
-    const urlList = imgArray.reverse()
+    const urlList = imgArray.reverse();
 
     const replacedContent = urlList.reduce(
       (acc: any, replacement: string, index: number) => {
@@ -83,9 +78,12 @@ export const createBlog = async (blog: INewBlog) => {
       getCaption.finalHtml
     );
 
-
     const title = `${blog.title}-${nanoid(5)}`;
-    const slug = slugify(title, { replacement: '-', locale: 'vi', remove: /[*+~.()'"!:@]/g });
+    const slug = slugify(title, {
+      replacement: '-',
+      locale: 'vi',
+      remove: /[*+~.()'"!:@]/g,
+    });
     const newBlog = new Blog({
       title: blog.title,
       image: blog.image,
@@ -160,6 +158,35 @@ export const getOneBlogBySlug = async (slug: string) => {
     }
   } catch (error) {
     console.log(error);
+    return false;
+  }
+};
+
+export const deleteBlogBySlug = async (slug: string): Promise<boolean> => {
+  try {
+
+    const blog = await Blog.findOne({ slug });
+
+    const imageTitle = blog.image
+
+    const storageRef = ref(storage, imageTitle);
+
+
+    await deleteObject(storageRef)
+
+    const imageInContent = extractElements(blog.caption)
+
+    await Promise.all(
+      imageInContent.images.map(async (item) => {
+      const storageRef = ref(storage, item);
+      await deleteObject(storageRef)
+    })
+    )
+    const result = await Blog.deleteOne({ slug });
+    if (result) return true;
+    else return false;
+  } catch (err:any) {
+    console.log(err);
     return false;
   }
 };

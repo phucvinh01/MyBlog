@@ -9,6 +9,11 @@
   color: black;
 }
 
+p {
+  padding: 0;
+  margin: 0;
+}
+
 .content-blog > p {
   text-indent:  "8px"
 }

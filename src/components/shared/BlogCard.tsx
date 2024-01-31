@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import ReactHtmlParser from 'html-react-parser';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import PopupSettingBlog from '../PopupSettingBlog';
 const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
   const router = useRouter();
   const [isAuthor, setIsAuthor] = useState(false);
@@ -28,7 +29,7 @@ const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
   }, [post, session]);
 
   return (
-    <div className='flex gap-5 flex-col bg-white dark:bg-black max-w-[380px]'>
+    <div className='flex gap-5 flex-col bg-white dark:bg-black max-w-[350px]'>
       <Image
         onClick={() => router.push(`/blog/${post.slug}`)}
         src={post.image as string}
@@ -45,9 +46,9 @@ const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
           {truncateText(post.title as string, 80)}
         </h2>
 
-        <p
+        <div
           id='caption-text'
-          className={` text-muted ${
+          className={` text-muted w-full ${
             mode === 'vertical' ? '' : 'max-h-[100px] min-h-[100px]'
           }`}>
           {handleShowCaption(post.caption)}
@@ -56,7 +57,7 @@ const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
           ) : (
             ''
           )}
-        </p>
+        </div>
 
         <div className='flex justify-between items-center'>
           <div className='flex gap-2'>
@@ -74,7 +75,7 @@ const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
             />
             <p className='text-muted'>{formatDate(post.createdAt)}</p>
           </div>
-          {isAuthor && <Settings className='font-light cursor-pointer text-muted' />}
+          {isAuthor && <PopupSettingBlog blog={post} />}
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 const ModalNewBlog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState<FileWithPath[]>([]);
-  const [imageAsUrl, setImageAsUrl] = useState<string>('');
+  const [imageAsUrl, setImageAsUrl] = useState('');
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
   const [location, setLocation] = useState('');
@@ -54,8 +54,8 @@ const ModalNewBlog = () => {
       const file = image[0];
 
       const storageRef = ref(storage, `files/${file.name}`);
-      uploadBytes(storageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((downloadURL) => {
+      await  uploadBytes(storageRef, file).then(async (snapshot) => {
+        await getDownloadURL(snapshot.ref).then((downloadURL) => {
           setImageAsUrl(downloadURL)
         });
       });

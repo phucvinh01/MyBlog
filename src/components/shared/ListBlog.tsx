@@ -1,9 +1,7 @@
-'use client';
-
-import React from 'react';
+'use client';;
 import BlogCard from './BlogCard';
 import useSWR from 'swr';
-import {Skeleton} from 'antd'
+import {Empty, Skeleton} from 'antd'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -28,6 +26,15 @@ const ListBlog = ({mode}: BlogProp) => {
       <Skeleton />
     </div>;
   }
+  if(data.data.length === 0) {
+    return(
+      <div className="flex min-h-screen justify-center items-center text-gray-500">
+        <Empty />
+    </div>
+    )
+    
+  }
+
 //`${mode === 'horizontal' ? 'grid grid-cols-3' ? mode === 'vertical' ? 'grid grid-cols-1'}  justify-center items-center gap-4`
   return (
     <div className={`${mode === 'vertical' ? 'grid grid-cols-1' : 'grid grid-cols-3'} justify-center items-center gap-4 `}>

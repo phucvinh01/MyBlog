@@ -38,14 +38,14 @@ const DisplayUser = ({
         </div>
       </div>
     <div className='flex flex-col gap-4 px-10 py-4 text-primary dark:bg-[#000] dark:rounded-lg'>
-      <div className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
+      <Link href={'/me'} className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
         <UserCog size={24} className='text-primary' color={theme ==='light' ? '#000' : '#fff' }/>
-        <Link href={'/me'} className='text-primary'>Profile</Link>
-      </div>
-       <div className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
+        <p  className='text-primary'>Profile</p>
+      </Link>
+       <Link href={'/me'} className='hover:bg-gray-400 border px-3 py-1 w-full rounded-xl flex items-center gap-3 cursor-pointer'>
         <Settings size={24} className='text-primary' color={theme ==='light' ? '#000' : '#fff' }/>
-        <Link href={'/me'} className='text-primary'>Account detail</Link>
-      </div>
+        <p  className='text-primary'>Account detail</p>
+      </Link>
 
       <button
         onClick={() => {
