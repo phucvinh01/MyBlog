@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal,Divider  } from 'antd';
 import { CiSearch } from 'react-icons/ci';
 import { MdClose } from 'react-icons/md';

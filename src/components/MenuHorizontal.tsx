@@ -1,6 +1,5 @@
-'use client';
+'use client';;
 import Link from 'next/link';
-import React from 'react';
 import { CiSaveDown2 } from 'react-icons/ci';
 import { VscBrowser } from 'react-icons/vsc';
 import ModalNewBlog from './ModalNewBlog';

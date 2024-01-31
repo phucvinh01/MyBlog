@@ -2,7 +2,6 @@ import { IBlog } from '@/types/backend'
 import formatDate from '@/util/formatDate'
 import { Dot } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
 
 const BlogCardHero = ( {post}: {post:IBlog}) => {
   return (

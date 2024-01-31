@@ -6,8 +6,18 @@ import useSWR from 'swr';
 import { Skeleton } from 'antd';
 import formatDate from '@/util/formatDate';
 import { truncateText } from '@/util/trunctedText';
+import ReactHtmlParser from 'html-react-parser';
 
 const Hero = () => {
+  const handleShowCaption = (caption: any) => {
+    if (caption.length > 100) {
+      const trunctedText = truncateText(caption, 120);
+      return ReactHtmlParser(trunctedText);
+    } else {
+      return ReactHtmlParser(caption);
+    }
+  };
+
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(`/api/blog/lastestBlog`, fetcher, {
     refreshInterval: 30,
@@ -45,11 +55,19 @@ const Hero = () => {
           <p className='text-primary'>New</p>
           <h2 className='h2'>{data.data[0].title}</h2>
           <p className='text-muted'>
-            {truncateText(data.data[0].caption as string, 200)}{' '}
+            {handleShowCaption(data.data[0].caption)}
+            {data.data[0].caption && data.data[0].caption.length > 150 ? (
+              <span className='text-end cursor-pointer'></span>
+            ) : (
+              ''
+            )}
             <span className='text-end cursor-pointer'>...Xem thêm</span>
           </p>
           <div className='flex gap-4'>
-            <img
+            <Image
+              alt={data.data[0].author?.image}
+              width={24}
+              height={24}
               className='w-[24px] h-[24px] rounded-full object-cover'
               src={data.data[0].author?.image}
             />

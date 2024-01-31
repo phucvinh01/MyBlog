@@ -1,4 +1,3 @@
-import React from 'react';
 import ListBlog from './shared/ListBlog';
 
 const category = [

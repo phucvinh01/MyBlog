@@ -1,5 +1,5 @@
-'use client';
-import React, { useId, useState } from 'react';
+'use client';;
+import { useId, useState } from 'react';
 import { Modal, message } from 'antd';
 import { IoCreateOutline } from 'react-icons/io5';
 import FileUploader from './FileUploader';
@@ -9,7 +9,6 @@ import { FileWithPath } from 'react-dropzone';
 import { useSession } from 'next-auth/react';
 import Editor from './RichTextEditor';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
-import TextArea from 'antd/es/input/TextArea';
 const ModalNewBlog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState<FileWithPath[]>([]);
@@ -69,8 +68,6 @@ const ModalNewBlog = () => {
         image: imageAsUrl,
         author: session?.userId,
       };
-
-
       try {
         const res = await fetch('/api/blog', {
           method: 'POST',

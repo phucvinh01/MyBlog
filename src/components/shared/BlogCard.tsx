@@ -25,7 +25,7 @@ const BlogCard = ({ post, mode }: { post: IBlog; mode?: any }) => {
     if (session?.userId === post.author?._id) {
       setIsAuthor(true);
     }
-  }, [post]);
+  }, [post, session]);
 
   return (
     <div className='flex gap-5 flex-col bg-white dark:bg-black max-w-[380px]'>

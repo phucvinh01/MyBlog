@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, {  useCallback, useState } from 'react';
 import { useDropzone, FileWithPath } from 'react-dropzone';
 import { GoUpload } from "react-icons/go";
@@ -32,7 +33,7 @@ const FileUploader = ({ mediaUrl, onChange }: FileUploaderProps) => {
       {fileUrl ? (
         <>
         <div className='flex flex-1 justify-center p-1 w-full lg:p-4'>
-            <img className='rounded-xl object-contain max-w-[390px]'  src={fileUrl} />
+            <Image className='rounded-xl object-contain max-w-[390px]'  src={fileUrl} width={390} alt={fileUrl} />
         </div>
         <p className='text-primary'>Click or grap for change</p>
         </>

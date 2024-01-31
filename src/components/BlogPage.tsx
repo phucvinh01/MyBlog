@@ -1,11 +1,8 @@
-'use client'
-
+'use client';
 import { Dot} from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
 import { FacebookIcon, FacebookShareButton } from 'react-share';
 import ReactHtmlParser from 'html-react-parser';
-import { IBlog } from '@/types/backend';
 import formatDate from '@/util/formatDate';
 import useSWR from 'swr';
 import fetcher from '@/util/fetcher';
@@ -67,7 +64,8 @@ const BlogPage = ({slug}: {slug:string}) => {
           alt={data.data.image}
           className='rounded-lg'
         />
-        <div className='text-justify'>{ReactHtmlParser(data.data.caption)}</div>
+        <div className='text-justify flex justify-center items-center flex-col content-blog'
+        >{ReactHtmlParser(data.data.caption)}</div>
       </div>
     </div>
   );

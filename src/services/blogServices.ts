@@ -72,10 +72,12 @@ export const createBlog = async (blog: INewBlog) => {
       })
     );
 
-    const replacedContent = imgArray.reduce(
+    const urlList = imgArray.reverse()
+
+    const replacedContent = urlList.reduce(
       (acc: any, replacement: string, index: number) => {
         const regex = `<replacement@${index}></replacement@${index}>`;
-        const replacementTag = `<img src='${replacement}'/>`;
+        const replacementTag = `<img className='flex justify-items-center items-center rounded-sm' src='${replacement}' alt='${replacement}' />`;
         return acc.replace(regex, replacementTag);
       },
       getCaption.finalHtml

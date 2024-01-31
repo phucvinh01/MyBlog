@@ -1,6 +1,5 @@
 import { Popover} from 'antd';
 import { CiUser } from 'react-icons/ci';
-import React from 'react';
 import { signOut } from 'next-auth/react';
 import { VscLoading } from 'react-icons/vsc';
 import { useRouter } from 'next/navigation';

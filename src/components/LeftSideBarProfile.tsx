@@ -5,7 +5,7 @@ import formatDate from '@/util/formatDate';
 import { Dot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const LeftSideBarProfile = () => {
   const { data: session } = useSession();
