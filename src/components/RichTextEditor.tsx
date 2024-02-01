@@ -4,11 +4,12 @@ import 'react-quill/dist/quill.snow.css';
 
 
 type EditorProps = {
+  className: string;
   value: string ,
   setValue: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function Editor({value, setValue}:EditorProps) {
+export default function Editor({value, setValue, className}:EditorProps) {
 
   const modules = {
     toolbar: [
@@ -49,11 +50,12 @@ export default function Editor({value, setValue}:EditorProps) {
   return (
     <div className='relative'>
       <ReactQuill
+      className={className}
         theme='snow'
         value={value}
         onChange={setValue}
         modules={modules}
-        formats={formats}
+        formats={formats}       
         
         />
     </div>

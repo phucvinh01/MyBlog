@@ -1,4 +1,4 @@
-'use client';;
+'use client';
 import { useId, useState } from 'react';
 import { Modal, message } from 'antd';
 import { IoCreateOutline } from 'react-icons/io5';
@@ -34,29 +34,21 @@ const ModalNewBlog = () => {
     setIsModalOpen(false);
   };
 
-
   const handleSubmit = async () => {
-
     //console.log("check caption", caption);
 
     setLoading(true);
-    if (
-      title === '' ||
-      tag === '' ||
-      location === '' ||
-      caption === '' 
-    ) {
+    if (title === '' || tag === '' || location === '' || caption === '') {
       message.error('Please fill out all fields');
       setLoading(false);
       return;
     } else {
-
       const file = image[0];
 
       const storageRef = ref(storage, `files/${file.name}`);
-      await  uploadBytes(storageRef, file).then(async (snapshot) => {
+      await uploadBytes(storageRef, file).then(async (snapshot) => {
         await getDownloadURL(snapshot.ref).then((downloadURL) => {
-          setImageAsUrl(downloadURL)
+          setImageAsUrl(downloadURL);
         });
       });
 
@@ -126,11 +118,8 @@ const ModalNewBlog = () => {
             </span>
           </button>
         </div>
-        <form className='flex gap-4 flex-col'>
-          <div className='flex justify-center items-center p-4 border-2 rounded-md min-w-[45%]'>
-            <FileUploader onChange={setImage} />
-          </div>
-          <div className='w-full p-4 flex gap-5 flex-col'>
+        <form className='flex gap-4 flex-row'>
+          <div className='flex flex-col gap-3 min-w-[45%]'>
             <div className='flex gap-2 flex-col justify-center'>
               <label
                 className=' text-primary'
@@ -143,9 +132,45 @@ const ModalNewBlog = () => {
                 type='text'
                 id={id + 'title'}
                 max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
+                className='focus:border-[#333] border-[#3d3a3a] px-3 py-1 w-full border-[1px] outline-none rounded-[15px]'
               />
             </div>
+            <div className='flex justify-center items-center p-4 border-[1px] rounded-md border-[#3d3a3a]'>
+              <FileUploader onChange={setImage} />
+            </div>
+            <div className='flex gap-2 flex-col justify-center'>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'Tag'}>
+                Tag
+              </label>
+              <input
+                onChange={(e) => setTag(e.target.value)}
+                value={tag}
+                type='text'
+                id={id + 'Tag'}
+                max={2200}
+                className='focus:border-[#333] border-[#3d3a3a] px-3 py-1 w-full border-[1px] outline-none rounded-[15px]'
+              />
+            </div>
+            <div className='flex gap-2 flex-col justify-center'>
+              <label
+                className=' text-primary'
+                htmlFor={id + 'Location'}>
+                Location
+              </label>
+              <input
+                onChange={(e) => setLocation(e.target.value)}
+                value={location}
+                type='text'
+                id={id + 'Location'}
+                max={2200}
+                className='focus:border-[#333] border-[#3d3a3a] px-3 py-1 w-full border-[1px] outline-none rounded-[15px]'
+              />
+            </div>
+          </div>
+
+          <div className='w-full p-4 flex gap-5 flex-col'>
             <div className='flex gap-2 flex-col justify-center'>
               <label
                 className=' text-primary'
@@ -162,38 +187,12 @@ const ModalNewBlog = () => {
                 style={{
                   height:220
                 }}
-                className=' focus:!border-[#333] px-3 py-1 w-full !border-b-[2px] !outline-0 hover:!border-[#333]  focus-within:!outline-0  rounded-sm'
+                className=' focus:!border-[#333] px-3 py-1 w-full !border-[1px] !outline-0 hover:!bord15-[#333]  focus-within:!outline-0  rounded-sm'
               /> */}
-              <Editor setValue={setCaption} value={caption} />
-            </div>
-            <div className='flex gap-2 flex-col justify-center'>
-              <label
-                className=' text-primary'
-                htmlFor={id + 'Tag'}>
-                Tag
-              </label>
-              <input
-                onChange={(e) => setTag(e.target.value)}
-                value={tag}
-                type='text'
-                id={id + 'Tag'}
-                max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
-              />
-            </div>
-            <div className='flex gap-2 flex-col justify-center'>
-              <label
-                className=' text-primary'
-                htmlFor={id + 'Location'}>
-                Location
-              </label>
-              <input
-                onChange={(e) => setLocation(e.target.value)}
-                value={location}
-                type='text'
-                id={id + 'Location'}
-                max={2200}
-                className='focus:border-[#333] px-3 py-1 w-full border-b-[2px] outline-none rounded-[20px]'
+              <Editor
+              className='w-100 min-h-full'
+                setValue={setCaption}
+                value={caption}
               />
             </div>
           </div>
